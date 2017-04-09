@@ -1,15 +1,56 @@
 #!/bin/bash
 
-if [ `uname` == Darwin ]; then
-    if [ $ARCH == 64 ]; then
-        ./Configure darwin64-x86_64-cc shared enable-ssl2 --prefix=$PREFIX
-    else
-        ./Configure darwin-i386-cc shared enable-ssl2 --prefix=$PREFIX
-    fi
+declare -a _CONFIG_OPTS
+_CONFIG_OPTS+=(--prefix=${PREFIX})
+_CONFIG_OPTS+=(--libdir=lib)
+_CONFIG_OPTS+=(shared)
+_CONFIG_OPTS+=(threads)
+_CONFIG_OPTS+=(enable-ssl2)
+_CONFIG_OPTS+=(no-zlib)
+
+_BASE_CC=$(basename "${CC}")
+if [[ ${_BASE_CC} == *-* ]]; then
+  # We are cross-compiling or using a specific compiler.
+  # do not allow config to make any guesses based on uname.
+  _CONFIGURATOR="perl ./Configure"
+  case ${_BASE_CC} in
+    i?86-*linux*)
+      _CONFIG_OPTS+=(linux-generic32)
+      ;;
+    x86_64-*linux*)
+      _CONFIG_OPTS+=(linux-x86_64)
+      ;;
+  esac
 else
-    ./config shared enable-ssl2 --prefix=$PREFIX
+  if [[ $(uname) == Darwin ]]; then
+    _CONFIG_OPTS+=(darwin64-x86_64-cc)
+    _CONFIGURATOR="perl ./Configure"
+  else
+    # Use config, which is a config.guess-like wrapper around Configure
+    _CONFIGURATOR=./config
+  fi
 fi
 
+CC=${CC}" ${CPPFLAGS} ${CFLAGS}" \
+  ${_CONFIGURATOR} ${_CONFIG_OPTS[@]} ${LDFLAGS}
+
+# This is not working yet. It may be important if we want to perform a parallel build
+# as enabled by openssl-1.0.2d-parallel-build.patch where the dependency info is old.
+# makedepend is a tool from xorg, but it seems to be little more than a wrapper for
+# '${CC} -M', so my plan is to replace it with that, or add a package for it? This
+# tool uses xorg headers (and maybe libraries) which is unfortunate.
+# http://stackoverflow.com/questions/6362705/replacing-makedepend-with-cc-mm
+# echo "echo \$*" > "${SRC_DIR}"/makedepend
+# echo "${CC} -M $(echo \"\$*\" | sed s'# --##g')" >> "${SRC_DIR}"/makedepend
+# chmod +x "${SRC_DIR}"/makedepend
+# PATH=${SRC_DIR}:${PATH} make -j1 depend
+
 make
-make test
+
+# When testing this via QEMU, even though it ends printing:
+# "ALL TESTS SUCCESSFUL."
+# .. it exits with a failure code.
+if [[ "${HOST}" == "${BUILD}" ]]; then
+  make test
+fi
 make install
