@@ -34,7 +34,7 @@ requirements:
     - python             # [win]
     # required for win32: https://wiki.openssl.org/index.php/Compilation_and_Installation#Windows
     - nasm               # [win32]
-    - perl ==5.20.3.1
+    - perl >=5.20.3.1
   run:
     - ca-certificates
 
