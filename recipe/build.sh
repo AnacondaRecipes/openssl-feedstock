@@ -16,9 +16,15 @@ if [[ ${_BASE_CC} == *-* ]]; then
   case ${_BASE_CC} in
     i?86-*linux*)
       _CONFIG_OPTS+=(linux-generic32)
+      USED_LDFLAGS=${LDFLAGS}
       ;;
     x86_64-*linux*)
       _CONFIG_OPTS+=(linux-x86_64)
+      USED_LDFLAGS=${LDFLAGS}
+      ;;
+    *darwin*)
+      _CONFIG_OPTS+=(darwin64-x86_64-cc)
+      USED_LDFLAGS=${LDFLAGS_CC}
       ;;
   esac
 else
@@ -32,7 +38,7 @@ else
 fi
 
 CC=${CC}" ${CPPFLAGS} ${CFLAGS}" \
-  ${_CONFIGURATOR} ${_CONFIG_OPTS[@]} ${LDFLAGS}
+  ${_CONFIGURATOR} ${_CONFIG_OPTS[@]} ${USED_LDFLAGS}
 
 # This is not working yet. It may be important if we want to perform a parallel build
 # as enabled by openssl-1.0.2d-parallel-build.patch where the dependency info is old.
@@ -51,6 +57,10 @@ make
 # "ALL TESTS SUCCESSFUL."
 # .. it exits with a failure code.
 if [[ "${HOST}" == "${BUILD}" ]]; then
-  make test
+  make test > testsuite.log 2>&1 || true
+  if ! cat testsuite.log | grep "ALL TESTS SUCCESSFUL."; then
+    echo "Testsuite failed!"
+    exit 1
+  fi
 fi
 make install
