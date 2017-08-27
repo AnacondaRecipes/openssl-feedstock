@@ -51,7 +51,7 @@ CC=${CC}" ${CPPFLAGS} ${CFLAGS}" \
 # chmod +x "${SRC_DIR}"/makedepend
 # PATH=${SRC_DIR}:${PATH} make -j1 depend
 
-make
+make -j${CPU_COUNT} ${VERBOSE_AT}
 
 # When testing this via QEMU, even though it ends printing:
 # "ALL TESTS SUCCESSFUL."
