@@ -40,12 +40,6 @@ requirements:
     - ca-certificates
 
 test:
-  requires:
-    - python   2.7.*   # [py27]
-    - python   3.5.*   # [py35]
-    - python   3.6.*   # [py36]
-  imports:
-    - ssl
   commands:
     - copy NUL checksum.txt        # [win]
     - touch checksum.txt           # [unix]
