@@ -9,6 +9,8 @@ source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: http://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
   sha256: ce07195b659e75f4e1db43552860070061f156a98bb37b672b101ba6e3ddf30c
+  patches:
+    - 0001-win32-Fix-yasm-compatibility.patch
 
 build:
   skip: True  # [win and py36]
@@ -33,7 +35,8 @@ requirements:
     # for feature activation
     - python             # [win]
     # required for win32: https://wiki.openssl.org/index.php/Compilation_and_Installation#Windows
-    - nasm               # [win32]
+    # Maybe we can change this to yasm? Maybe we can ignore it?
+    - yasm               # [win32]
     - perl >=5.20.3.1
     - {{ compiler('c') }}
   run:
