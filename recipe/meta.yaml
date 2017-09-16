@@ -32,13 +32,9 @@ build:
 
 requirements:
   build:
-    # for feature activation
-    - python             # [win]
-    # required for win32: https://wiki.openssl.org/index.php/Compilation_and_Installation#Windows
-    # Maybe we can change this to yasm? Maybe we can ignore it?
-    - yasm               # [win32]
-    - perl >=5.20.3.1
     - {{ compiler('c') }}
+    - yasm               # [win32]
+    - perl
   run:
     - ca-certificates
 

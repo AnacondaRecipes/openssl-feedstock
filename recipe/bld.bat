@@ -1,3 +1,5 @@
+copy %BUILD_PREFIX%\Library\bin\yasm.exe %BUILD_PREFIX%\Library\bin\nasm.exe
+
 if "%ARCH%"=="32" (
     set OSSL_CONFIGURE=VC-WIN32
     set OSSL_DO_SCRIPT=ms\do_nasm.bat
