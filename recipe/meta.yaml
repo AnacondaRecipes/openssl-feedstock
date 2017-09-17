@@ -14,7 +14,7 @@ source:
 
 build:
   skip: True  # [win and py36]
-  number: 0
+  number: 1
   no_link: lib/libcrypto.so.1.0.0        # [linux]
   no_link: lib/libcrypto.1.0.0.dylib     # [osx]
   detect_binary_files_with_prefix: True  # [unix]
