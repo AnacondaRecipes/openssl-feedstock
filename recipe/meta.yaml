@@ -13,7 +13,7 @@ source:
     - 0001-win32-Fix-yasm-compatibility.patch
 
 build:
-  number: 2
+  number: 3
   no_link: lib/libcrypto.so.1.0.0        # [linux]
   no_link: lib/libcrypto.1.0.0.dylib     # [osx]
   has_prefix_files:                      # [unix]
