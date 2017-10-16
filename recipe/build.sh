@@ -17,10 +17,12 @@ if [[ ${_BASE_CC} == *-* ]]; then
     i?86-*linux*)
       _CONFIG_OPTS+=(linux-generic32)
       USED_LDFLAGS=${LDFLAGS}
+      CFLAGS="${CFLAGS} -Wa,--noexecstack"
       ;;
     x86_64-*linux*)
       _CONFIG_OPTS+=(linux-x86_64)
       USED_LDFLAGS=${LDFLAGS}
+      CFLAGS="${CFLAGS} -Wa,--noexecstack"
       ;;
     *darwin*)
       _CONFIG_OPTS+=(darwin64-x86_64-cc)
@@ -64,3 +66,11 @@ if [[ "${HOST}" == "${BUILD}" ]]; then
   fi
 fi
 make install
+
+# https://github.com/ContinuumIO/anaconda-issues/issues/6424
+if [[ ${HOST} =~ .*linux.* ]]; then
+  if execstack -q "${PREFIX}"/lib/libcrypto.so.1.0.0 | grep -e '^X '; then
+    echo "Error, executable stack found in libcrypto.so.1.0.0"
+    exit 1
+  fi
+fi
