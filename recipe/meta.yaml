@@ -13,7 +13,7 @@ source:
     - 0001-win32-Fix-yasm-compatibility.patch
 
 build:
-  number: 0
+  number: 1
   no_link: lib/libcrypto.so.1.0.0        # [linux]
   no_link: lib/libcrypto.1.0.0.dylib     # [osx]
   has_prefix_files:                      # [unix]
@@ -22,8 +22,6 @@ build:
     - lib/pkgconfig/libcrypto.pc         # [unix]
     - lib/pkgconfig/libssl.pc            # [unix]
     - lib/pkgconfig/openssl.pc           # [unix]
-  features:
-    - vc{{ vc }}     # [win]
   run_exports:
     - {{ pin_subpackage('openssl', max_pin='x.x.x') }}
 
