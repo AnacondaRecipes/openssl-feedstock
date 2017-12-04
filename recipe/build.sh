@@ -24,6 +24,11 @@ if [[ ${_BASE_CC} == *-* ]]; then
       USED_LDFLAGS=${LDFLAGS}
       CFLAGS="${CFLAGS} -Wa,--noexecstack"
       ;;
+    *powerpc64le-*linux*)
+      _CONFIG_OPTS+=(linux-ppc64le)
+      USED_LDFLAGS=${LDFLAGS}
+      CFLAGS="${CFLAGS} -Wa,--noexecstack"
+      ;;
     *darwin*)
       _CONFIG_OPTS+=(darwin64-x86_64-cc)
       USED_LDFLAGS=${LDFLAGS_CC}
