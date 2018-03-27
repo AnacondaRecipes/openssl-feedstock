@@ -30,6 +30,7 @@ requirements:
     - {{ compiler('c') }}
     - yasm               # [win32]
     - perl
+    - make               # [unix]
   run:
     - ca-certificates
 
