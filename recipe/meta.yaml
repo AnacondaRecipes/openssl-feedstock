@@ -1,5 +1,5 @@
 {% set name="openssl" %}
-{% set version="1.0.2n" %}
+{% set version="1.0.2o" %}
 
 package:
   name: {{ name|lower }}
@@ -8,7 +8,7 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: http://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
-  sha256: 370babb75f278c39e0c50e8c4e7493bc0f18db6867478341a832a982fd15a8fe
+  sha256: ec3f5c9714ba0fd45cb4e087301eb1336c317e0d20b575a125050470e8089e4d
   patches:
     - 0001-win32-Fix-yasm-compatibility.patch
 
@@ -30,6 +30,7 @@ requirements:
     - {{ compiler('c') }}
     - yasm               # [win32]
     - perl
+    - make               # [unix]
   run:
     - ca-certificates
 
