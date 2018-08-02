@@ -10,10 +10,11 @@ source:
   url: http://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
   sha256: ec3f5c9714ba0fd45cb4e087301eb1336c317e0d20b575a125050470e8089e4d
   patches:
+    - 349a41da1ad88ad87825414752a8ff5fdd6a6c3f.patch
     - 0001-win32-Fix-yasm-compatibility.patch
 
 build:
-  number: 0
+  number: 1
   no_link: lib/libcrypto.so.1.0.0        # [linux]
   no_link: lib/libcrypto.1.0.0.dylib     # [osx]
   has_prefix_files:                      # [unix]
@@ -29,8 +30,10 @@ requirements:
   build:
     - {{ compiler('c') }}
     - yasm               # [win32]
-    - perl
+    - perl               # [win]
     - make               # [unix]
+  host:                  # [unix]
+    - perl               # [unix]
   run:
     - ca-certificates
 
