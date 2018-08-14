@@ -1,5 +1,5 @@
 {% set name="openssl" %}
-{% set version="1.0.2o" %}
+{% set version="1.0.2p" %}
 
 package:
   name: {{ name|lower }}
@@ -8,17 +8,12 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: http://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
-  sha256: ec3f5c9714ba0fd45cb4e087301eb1336c317e0d20b575a125050470e8089e4d
+  sha256: 50a98e07b1a89eb8f6a99477f262df71c6fa7bef77df4dc83025a2845c827d00
   patches:
-    # fix for CVE-2018-0737
-    # expected to be included in the 1.0.2p release
-    # additional discussion at:
-    # https://github.com/openssl/openssl/commit/349a41da1ad88ad87825414752a8ff5fdd6a6c3f
-    - 349a41da1ad88ad87825414752a8ff5fdd6a6c3f.patch
     - 0001-win32-Fix-yasm-compatibility.patch
 
 build:
-  number: 1
+  number: 0
   no_link: lib/libcrypto.so.1.0.0        # [linux]
   no_link: lib/libcrypto.1.0.0.dylib     # [osx]
   has_prefix_files:                      # [unix]
