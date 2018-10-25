@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PERL=${BUILD_PREFIX}/bin/perl
+PERL=${PREFIX}/bin/perl
 declare -a _CONFIG_OPTS
 _CONFIG_OPTS+=(--prefix=${PREFIX})
 _CONFIG_OPTS+=(--libdir=lib)
@@ -57,13 +57,17 @@ CC=${CC}" ${CPPFLAGS} ${CFLAGS}" \
 
 make -j${CPU_COUNT} ${VERBOSE_AT}
 
+# expected error: https://github.com/openssl/openssl/issues/6953
+#    OK to ignore: https://github.com/openssl/openssl/issues/6953#issuecomment-415428340
+rm test/recipes/04-test_err.t
+
 # When testing this via QEMU, even though it ends printing:
 # "ALL TESTS SUCCESSFUL."
 # .. it exits with a failure code.
 if [[ "${HOST}" == "${BUILD}" ]]; then
   make test > testsuite.log 2>&1 || true
-  if ! cat testsuite.log | grep "ALL TESTS SUCCESSFUL."; then
-    echo "Testsuite failed!"
+  if ! cat testsuite.log | grep "All tests successful."; then
+    echo "Testsuite failed!  See $(pwd)/testsuite.log for more info."
     exit 1
   fi
 fi
@@ -71,8 +75,8 @@ make install
 
 # https://github.com/ContinuumIO/anaconda-issues/issues/6424
 if [[ ${HOST} =~ .*linux.* ]]; then
-  if execstack -q "${PREFIX}"/lib/libcrypto.so.1.0.0 | grep -e '^X '; then
-    echo "Error, executable stack found in libcrypto.so.1.0.0"
+  if execstack -q "${PREFIX}"/lib/libcrypto.so.1.1 | grep -e '^X '; then
+    echo "Error, executable stack found in libcrypto.so.1.1"
     exit 1
   fi
 fi
