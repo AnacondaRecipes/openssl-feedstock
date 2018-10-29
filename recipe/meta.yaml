@@ -10,7 +10,6 @@ source:
   url: http://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
   sha256: 2836875a0f89c03d0fdf483941512613a50cfb421d6fd94b9f41d7279d586a3d
   patches:
-    - 0001-win32-Fix-yasm-compatibility.patch
     - 0002-crypto-sm2-sm2_sign.c-ensure-UINT16_MAX-is-properly-.patch
 
 build:
