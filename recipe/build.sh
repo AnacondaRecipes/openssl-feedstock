@@ -71,7 +71,7 @@ if [[ "${HOST}" == "${BUILD}" ]]; then
     exit 1
   fi
 fi
-make install
+make install_sw
 
 # https://github.com/ContinuumIO/anaconda-issues/issues/6424
 if [[ ${HOST} =~ .*linux.* ]]; then
