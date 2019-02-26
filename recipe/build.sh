@@ -23,6 +23,10 @@ if [[ ${_BASE_CC} == *-* ]]; then
       _CONFIG_OPTS+=(linux-x86_64)
       CFLAGS="${CFLAGS} -Wa,--noexecstack"
       ;;
+    aarch64-*-linux*)
+      _CONFIG_OPTS+=(linux-aarch64)
+      CFLAGS="${CFLAGS} -Wa,--noexecstack"
+      ;;
     *powerpc64le-*linux*)
       _CONFIG_OPTS+=(linux-ppc64le)
       CFLAGS="${CFLAGS} -Wa,--noexecstack"
@@ -66,7 +70,7 @@ rm test/recipes/04-test_err.t
 # .. it exits with a failure code.
 if [[ "${HOST}" == "${BUILD}" ]]; then
   make test > testsuite.log 2>&1 || true
-  if ! cat testsuite.log | grep "All tests successful."; then
+  if ! cat testsuite.log | grep -i "all tests successful"; then
     echo "Testsuite failed!  See $(pwd)/testsuite.log for more info."
     exit 1
   fi
