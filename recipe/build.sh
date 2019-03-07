@@ -75,7 +75,7 @@ if [[ "${HOST}" == "${BUILD}" ]]; then
     exit 1
   fi
 fi
-make install_sw
+make install_sw install_ssldirs
 
 # https://github.com/ContinuumIO/anaconda-issues/issues/6424
 if [[ ${HOST} =~ .*linux.* ]]; then
