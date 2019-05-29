@@ -9,6 +9,8 @@ source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: http://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
   sha256: f6fb3079ad15076154eda9413fed42877d668e7069d9b87396d0804fdb3f4c90
+  patches:
+    - 0001-Don-t-use-USE_BCRYPTGENRANDOM-for-VS-older-than-2015.patch
 
 build:
   number: 1
