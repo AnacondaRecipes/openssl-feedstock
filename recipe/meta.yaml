@@ -33,7 +33,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
-    - yasm               # [win32]
+    - nasm               # [win32]
     - perl
     - make               # [unix]
     - patch              # [unix]
