@@ -13,7 +13,7 @@ source:
     - openssl-1.0.2d-parallel-build.patch
 
 build:
-  number: 0
+  number: 1
   no_link: lib/libcrypto.so.1.0.0      # [linux]
   no_link: lib/libcrypto.1.0.0.dylib     # [osx]
   has_prefix_files:                      # [unix]
@@ -28,7 +28,7 @@ build:
     # openssl's versioning is X.Y.Z(rev), where rev is really the patch release ID
     #    This pin allows the patch release to be >= the build-time openssl version.
     - {{ pin_subpackage('openssl', max_pin='x.x.x') }}
-  detect_binary_files_with_prefix: False
+  detect_binary_files_with_prefix: True
 
 requirements:
   build:
