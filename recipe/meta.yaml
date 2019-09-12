@@ -43,6 +43,8 @@ requirements:
     - ca-certificates
 
 test:
+  downstreams:
+    - python
   commands:
     - copy NUL checksum.txt        # [win]
     - touch checksum.txt           # [unix]
