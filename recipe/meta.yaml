@@ -13,7 +13,7 @@ source:
     - 0001-Don-t-use-USE_BCRYPTGENRANDOM-for-VS-older-than-2015.patch
 
 build:
-  number: 1
+  number: 2
   no_link: lib/libcrypto.so.1.1        # [linux]
   no_link: lib/libcrypto.1.1.dylib     # [osx]
   has_prefix_files:                      # [unix]
@@ -52,11 +52,13 @@ test:
     - python
   requires:
     - python
+    - six
   commands:
     - copy NUL checksum.txt        # [win]
     - touch checksum.txt           # [unix]
     - openssl sha256 checksum.txt
-    - python -c "import urllib.request; urllib.request.urlopen('https://pypi.org')"
+    - python -c "from six.moves import urllib; urllib.request.urlopen('https://pypi.org')"
+
 
 about:
   home: http://www.openssl.org/
