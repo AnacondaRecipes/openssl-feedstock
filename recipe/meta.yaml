@@ -1,5 +1,5 @@
 {% set name = "openssl" %}
-{% set version = "1.0.2t" %}
+{% set version = "1.0.2u" %}
 
 package:
   name: {{ name|lower }}
@@ -8,12 +8,10 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: http://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
-  sha256: 14cb464efe7ac6b54799b34456bd69558a749a4931ecfd9cf9f71d7881cac7bc
-  patches:
-    - openssl-1.0.2d-parallel-build.patch
+  sha256: ecd0c6ffb493dd06707d38b14bb4d8c2288bb7033735606569d8f90f89669d16
 
 build:
-  number: 1
+  number: 0
   no_link: lib/libcrypto.so.1.0.0        # [linux]
   no_link: lib/libcrypto.1.0.0.dylib     # [osx]
   has_prefix_files:                      # [unix]
@@ -22,8 +20,6 @@ build:
     - lib/pkgconfig/libcrypto.pc         # [unix]
     - lib/pkgconfig/libssl.pc            # [unix]
     - lib/pkgconfig/openssl.pc           # [unix]
-  features:
-     - vc{{ vc }}     # [win]
   run_exports:
     # openssl's versioning is X.Y.Z(rev), where rev is really the patch release ID
     #    This pin allows the patch release to be >= the build-time openssl version.
