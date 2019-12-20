@@ -1,5 +1,5 @@
 {% set name = "openssl" %}
-{% set version = "1.0.2s" %}
+{% set version = "1.0.2t" %}
 
 package:
   name: {{ name|lower }}
@@ -8,12 +8,12 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: http://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
-  sha256: cabd5c9492825ce5bd23f3c3aeed6a97f8142f606d893df216411f07d1abab96
+  sha256: 14cb464efe7ac6b54799b34456bd69558a749a4931ecfd9cf9f71d7881cac7bc
   patches:
-    - 0001-win32-Fix-yasm-compatibility.patch
+    - openssl-1.0.2d-parallel-build.patch
 
 build:
-  number: 0
+  number: 1
   no_link: lib/libcrypto.so.1.0.0        # [linux]
   no_link: lib/libcrypto.1.0.0.dylib     # [osx]
   has_prefix_files:                      # [unix]
@@ -22,15 +22,27 @@ build:
     - lib/pkgconfig/libcrypto.pc         # [unix]
     - lib/pkgconfig/libssl.pc            # [unix]
     - lib/pkgconfig/openssl.pc           # [unix]
+  features:
+     - vc{{ vc }}     # [win]
   run_exports:
+    # openssl's versioning is X.Y.Z(rev), where rev is really the patch release ID
+    #    This pin allows the patch release to be >= the build-time openssl version.
     - {{ pin_subpackage('openssl', max_pin='x.x.x') }}
+  detect_binary_files_with_prefix: True
 
 requirements:
   build:
     - {{ compiler('c') }}
-    - yasm               # [win32]
     - perl
-    - make               # [unix]
+    - make  # [unix]
+    - nasm  # [win32]
+    - patch  # [unix]
+    - m2-patch  # [win]
+
+  host:  # [win]
+    # technically a build tool, but the windows makefile really wants to find it in the host env.
+    #    easier to do this than carry a patch.
+    - perl  # [win]
   run:
     - ca-certificates
 
@@ -54,5 +66,7 @@ extra:
     - jakirkham
     - jjhelmus
     - msarahan
+    - mingwandroid
     - ocefpaf
     - pelson
+    - carlodri

@@ -9,7 +9,7 @@ if "%ARCH%"=="32" (
 )
 
 REM Configure step
-perl configure %OSSL_CONFIGURE%
+perl Configure %OSSL_CONFIGURE%
 if errorlevel 1 exit 1
 call %OSSL_DO_SCRIPT%
 if errorlevel 1 exit 1
@@ -40,3 +40,4 @@ copy out32dll\ssleay32.dll %LIBRARY_BIN%\ssleay32.dll
 copy out32dll\libeay32.dll %LIBRARY_BIN%\libeay32.dll
 mkdir %LIBRARY_INC%\openssl
 xcopy /S inc32\openssl\*.* %LIBRARY_INC%\openssl\
+
