@@ -13,9 +13,12 @@ source:
     - 0001-Don-t-use-USE_BCRYPTGENRANDOM-for-VS-older-than-2015.patch
     # ppc64le fixes, see https://github.com/openssl/openssl/pull/10044/files
     - 10044.patch
+    # Fix for CVE-2019-1551
+    # https://github.com/openssl/openssl/commit/419102400a2811582a7a3d4a4e317d72e5ce0a8f
+    - 419102400a2811582a7a3d4a4e317d72e5ce0a8f.patch
 
 build:
-  number: 3
+  number: 4
   no_link: lib/libcrypto.so.1.1        # [linux]
   no_link: lib/libcrypto.1.1.dylib     # [osx]
   has_prefix_files:                      # [unix]
