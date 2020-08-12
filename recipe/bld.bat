@@ -5,7 +5,19 @@ if "%ARCH%"=="32" (
 )
 
 REM Configure step
-%LIBRARY_BIN%\perl configure %OSSL_CONFIGURE% --prefix=%LIBRARY_PREFIX% --openssldir=%LIBRARY_PREFIX%
+REM
+REM Conda currently does not perform prefix replacement on Windows, so
+REM OPENSSLDIR cannot (reliably) be used to provide functionality such as a
+REM default configuration and standard CA certificates on a per-environment
+REM basis.  Given that, we set OPENSSLDIR to a location with extremely limited
+REM write permissions to limit the risk of non-privileged users exploiting
+REM OpenSSL's engines feature to perform arbitrary code execution attacks
+REM against applications that load the OpenSSL DLLs.
+REM
+%LIBRARY_BIN%\perl configure %OSSL_CONFIGURE% ^
+    --prefix=%LIBRARY_PREFIX% ^
+    --openssldir="%CommonProgramFiles%\ssl"
+
 if errorlevel 1 exit 1
 
 REM Build step
@@ -25,12 +37,14 @@ rem if errorlevel 1 exit 1
 nmake test
 if errorlevel 1 exit 1
 
-
-nmake install
+REM Install software components only; i.e., skip the HTML docs
+nmake install_sw
 if errorlevel 1 exit 1
 
-:: don't include html docs that get installed
-rd /s /q %LIBRARY_PREFIX%\html
+REM Install support files for reference purposes.  (Note that the way we
+REM configured OPENSSLDIR above makes these files non-functional.)
+nmake install_ssldirs OPENSSLDIR=%LIBRARY_PREFIX%\ssl
+if errorlevel 1 exit 1
 
 REM Install step
 rem copy out32dll\openssl.exe %PREFIX%\openssl.exe

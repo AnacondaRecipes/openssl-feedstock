@@ -13,7 +13,7 @@ source:
     - 0001-Don-t-use-USE_BCRYPTGENRANDOM-for-VS-older-than-2015.patch
 
 build:
-  number: 0
+  number: 1
   no_link: lib/libcrypto.so.1.1        # [linux]
   no_link: lib/libcrypto.1.1.dylib     # [osx]
   has_prefix_files:                      # [unix]
@@ -74,3 +74,4 @@ extra:
     - ocefpaf
     - pelson
     - carlodri
+    - chenghlee
