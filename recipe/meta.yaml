@@ -1,5 +1,5 @@
 {% set name = "openssl" %}
-{% set version = "1.1.1g" %}
+{% set version = "openssl,1.1.1g" %}
 
 package:
   name: {{ name|lower }}
@@ -8,7 +8,7 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: http://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
-  sha256: ddb04774f1e32f0c49751e21b67216ac87852ceb056b75209af2443400636d46
+  sha256: c413e17d876098e89478c85e1d2b96db79bcdc943ad54550f0351da4f141ec5e
   patches:
     - 0001-Don-t-use-USE_BCRYPTGENRANDOM-for-VS-older-than-2015.patch
 
