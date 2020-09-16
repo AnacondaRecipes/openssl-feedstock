@@ -16,7 +16,9 @@ REM against applications that load the OpenSSL DLLs.
 REM
 %LIBRARY_BIN%\perl configure %OSSL_CONFIGURE% ^
     --prefix=%LIBRARY_PREFIX% ^
-    --openssldir="%CommonProgramFiles%\ssl"
+    --openssldir="%PREFIX%\ssl" ^
+    -DOPENSSLBIN=\"\\\"%LIBRARY_PREFIX%\\bin\\\"\" ^
+    -DPATH_MAX=1024
 
 if errorlevel 1 exit 1
 

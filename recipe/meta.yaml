@@ -1,21 +1,31 @@
 {% set name = "openssl" %}
 {% set version = "1.1.1g" %}
+{% set from_source_control = os.environ.get('CONDA_BUILD_FROM_SOURCE_CONTROL', 'no') %}
+
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: http://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
-  sha256: ddb04774f1e32f0c49751e21b67216ac87852ceb056b75209af2443400636d46
-  patches:
-    - 0001-Don-t-use-USE_BCRYPTGENRANDOM-for-VS-older-than-2015.patch
+{% if from_source_control == 'no' %}
+  - url: http://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
+    sha256: ddb04774f1e32f0c49751e21b67216ac87852ceb056b75209af2443400636d46
+{% else %}
+    git_url: git://git.openssl.org/openssl.git
+    git_tag: OpenSSL_{{ version.replace('.', '_') }}
+{% endif %}
+    patches:
+      - 0001-Don-t-use-USE_BCRYPTGENRANDOM-for-VS-older-than-2015.patch
+      - 0002-Port-the-MSYS2-openssl-relocation-patch-I-wrote-many.patch
+  # From :: https://raw.githubusercontent.com/win32ports/unistd_h/master/unistd.h
+  - path: unistd.h  # [win]
+    folder: include  # [win]
 
 build:
-  number: 1
-  no_link: lib/libcrypto.so.1.1        # [linux]
-  no_link: lib/libcrypto.1.1.dylib     # [osx]
+  number: 5
+  # no_link: lib/libcrypto.so.1.1        # [linux]
+  # no_link: lib/libcrypto.1.1.dylib     # [osx]
   has_prefix_files:                      # [unix]
     - bin/c_rehash                       # [unix]
     - lib/pkgconfig/libcrypto.pc         # [unix]
@@ -25,11 +35,11 @@ build:
     # openssl's versioning is X.Y.Z(rev), where rev is really the patch release ID
     #    This pin allows the patch release to be >= the build-time openssl version.
     - {{ pin_subpackage('openssl', max_pin='x.x.x') }}
-  detect_binary_files_with_prefix: True
-  binary_has_prefix_files:
-    - lib/libcrypto.so.1.1  # [linux]
-    - lib/libcrypto.1.1.dylib  # [osx]
-    - lib/libcrypto.a  # [unix]
+  detect_binary_files_with_prefix: False
+  # binary_has_prefix_files:
+  #   - lib/libcrypto.so.1.1  # [linux]
+  #   - lib/libcrypto.1.1.dylib  # [osx]
+  #   - lib/libcrypto.a  # [unix]
 
 requirements:
   build:
