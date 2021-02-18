@@ -6,7 +6,8 @@ _CONFIG_OPTS+=(--prefix=${PREFIX})
 _CONFIG_OPTS+=(--libdir=lib)
 _CONFIG_OPTS+=(shared)
 _CONFIG_OPTS+=(threads)
-_CONFIG_OPTS+=(enable-ssl2)
+_CONFIG_OPTS+=(no-ssl2)     # broken, insecure protocol
+_CONFIG_OPTS+=(no-ssl3)     # broken, insecure protocol
 _CONFIG_OPTS+=(no-zlib)
 
 _BASE_CC=$(basename "${CC}")
@@ -29,10 +30,6 @@ if [[ ${_BASE_CC} == *-* ]]; then
       ;;
     *powerpc64le-*linux*)
       _CONFIG_OPTS+=(linux-ppc64le)
-      CFLAGS="${CFLAGS} -Wa,--noexecstack"
-      ;;
-    *s390x-*linux*)
-      _CONFIG_OPTS+=(linux64-s390x)
       CFLAGS="${CFLAGS} -Wa,--noexecstack"
       ;;
     *darwin*)
