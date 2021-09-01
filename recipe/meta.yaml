@@ -12,6 +12,7 @@ source:
   patches:
     - 0001-Don-t-use-USE_BCRYPTGENRANDOM-for-VS-older-than-2015.patch
     - CVE-2021-3711.patch
+    - CVE-2021-3712.patch
 
 build:
   number: 1
