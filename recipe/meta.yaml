@@ -11,9 +11,10 @@ source:
   sha256: 892a0875b9872acd04a9fde79b1f943075d5ea162415de3047c327df33fbaee5
   patches:
     - 0001-Don-t-use-USE_BCRYPTGENRANDOM-for-VS-older-than-2015.patch
+    - CVE-2021-3711.patch
 
 build:
-  number: 0
+  number: 1
   no_link: lib/libcrypto.so.1.1        # [linux]
   no_link: lib/libcrypto.1.1.dylib     # [osx]
   has_prefix_files:                      # [unix]
