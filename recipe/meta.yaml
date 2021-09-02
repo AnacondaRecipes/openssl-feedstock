@@ -11,6 +11,9 @@ source:
   sha256: 0b7a3e5e59c34827fe0c3a74b7ec8baef302b98fa80088d7f9153aa16fa76bd1
   patches:
     - 0001-Don-t-use-USE_BCRYPTGENRANDOM-for-VS-older-than-2015.patch
+    # 9/2/2021 PJY: Patch 0002 can lilkely be removed in the next release after 1.1.1l.
+    # The change was merged one day after 1.1.1l was released.
+    - 0002-Darwin-allow-build-on-releases-before-Yosemite-iOS8.patch   # [osx]
 
 build:
   number: 0
