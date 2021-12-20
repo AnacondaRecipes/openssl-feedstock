@@ -41,7 +41,6 @@ if [[ ${_BASE_CC} == *-* ]]; then
       ;;
     *darwin-arm64*)
       _CONFIG_OPTS+=(darwin64-arm64-cc)
-      CFLAGS="${CFLAGS} -Wa"
       ;;
   esac
 else
