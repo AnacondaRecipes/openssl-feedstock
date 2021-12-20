@@ -48,7 +48,8 @@ requirements:
 
 test:
   requires:
-    - python 3.7
+    - python 3.7  # [not (osx and arm64)]
+    - python 3.8  # [osx and arm64]
     - six
   commands:
     - copy NUL checksum.txt        # [win]
