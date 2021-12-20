@@ -50,7 +50,7 @@ test:
   requires:
     - certifi  # [win]
     - python 3.7  # [not (osx and arm64)]
-    - python 3.8  # [osx and arm64]
+    - python 3.9  # [osx and arm64]
     - six
   commands:
     - copy NUL checksum.txt        # [win]
