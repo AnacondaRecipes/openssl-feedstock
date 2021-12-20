@@ -39,6 +39,10 @@ if [[ ${_BASE_CC} == *-* ]]; then
     *darwin*)
       _CONFIG_OPTS+=(darwin64-x86_64-cc)
       ;;
+    *darwin-arm64*)
+      _CONFIG_OPTS+=(darwin64-arm64-cc)
+      CFLAGS="${CFLAGS} -Wa"
+      ;;
   esac
 else
   if [[ $(uname) == Darwin ]]; then
