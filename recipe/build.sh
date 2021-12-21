@@ -80,6 +80,7 @@ if [[ "${HOST}" == "${BUILD}" ]]; then
   make test > testsuite.log 2>&1 || true
   if ! cat testsuite.log | grep -i "all tests successful"; then
     echo "Testsuite failed!  See $(pwd)/testsuite.log for more info."
+    cat $(pwd)/testsuite.log
     exit 1
   fi
 fi
