@@ -36,7 +36,7 @@ if [[ ${_BASE_CC} == *-* ]]; then
       _CONFIG_OPTS+=(linux64-s390x)
       CFLAGS="${CFLAGS} -Wa,--noexecstack"
       ;;
-    *darwin-arm64*)
+    *darwin-arm64*|*arm64-*-darwin*)
       _CONFIG_OPTS+=(darwin64-arm64-cc)
       ;;
     *darwin*)
