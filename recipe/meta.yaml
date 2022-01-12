@@ -1,5 +1,5 @@
 {% set name = "openssl" %}
-{% set version = "1.1.1l" %}
+{% set version = "1.1.1m" %}
 
 package:
   name: {{ name|lower }}
@@ -8,12 +8,9 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: http://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
-  sha256: 0b7a3e5e59c34827fe0c3a74b7ec8baef302b98fa80088d7f9153aa16fa76bd1
+  sha256: f89199be8b23ca45fc7cb9f1d8d3ee67312318286ad030f5316aca6462db6c96
   patches:
     - 0001-Don-t-use-USE_BCRYPTGENRANDOM-for-VS-older-than-2015.patch
-    # 9/2/2021 PJY: Patch 0002 can lilkely be removed in the next release after 1.1.1l.
-    # The change was merged one day after 1.1.1l was released.
-    - 0002-Darwin-allow-build-on-releases-before-Yosemite-iOS8.patch   # [osx]
 
 build:
   number: 0
@@ -51,14 +48,16 @@ requirements:
 
 test:
   requires:
-    - python 3.7
+    - certifi  # [win]
+    - python 3.7  # [not (osx and arm64)]
+    - python 3.8  # [osx and arm64]
     - six
   commands:
     - copy NUL checksum.txt        # [win]
     - touch checksum.txt           # [unix]
     - openssl sha256 checksum.txt
-    - python -c "from six.moves import urllib; urllib.request.urlopen('https://pypi.org')"
-
+    - python -c "from six.moves import urllib; urllib.request.urlopen('https://pypi.org')"  # [unix]
+    - python -c "import certifi; import ssl; import urllib.request as urlrq; urlrq.urlopen('https://pypi.org', context=ssl.create_default_context(cafile=certifi.where()))"  # [win]
 
 about:
   home: http://www.openssl.org/

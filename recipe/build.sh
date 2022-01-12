@@ -36,6 +36,9 @@ if [[ ${_BASE_CC} == *-* ]]; then
       _CONFIG_OPTS+=(linux64-s390x)
       CFLAGS="${CFLAGS} -Wa,--noexecstack"
       ;;
+    *darwin-arm64*|*arm64-*-darwin*)
+      _CONFIG_OPTS+=(darwin64-arm64-cc)
+      ;;
     *darwin*)
       _CONFIG_OPTS+=(darwin64-x86_64-cc)
       ;;
@@ -74,9 +77,11 @@ rm test/recipes/04-test_err.t
 # "ALL TESTS SUCCESSFUL."
 # .. it exits with a failure code.
 if [[ "${HOST}" == "${BUILD}" ]]; then
-  make test > testsuite.log 2>&1 || true
+  # Using verbosity on failed (sub-)tests only VF=1
+  make test V=1 > testsuite.log 2>&1 || true
   if ! cat testsuite.log | grep -i "all tests successful"; then
     echo "Testsuite failed!  See $(pwd)/testsuite.log for more info."
+    cat $(pwd)/testsuite.log
     exit 1
   fi
 fi
