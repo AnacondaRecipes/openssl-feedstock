@@ -16,10 +16,6 @@ if [[ ${_BASE_CC} == *-* ]]; then
   # do not allow config to make any guesses based on uname.
   _CONFIGURATOR="perl ./Configure"
   case ${_BASE_CC} in
-    i?86-*linux*)
-      _CONFIG_OPTS+=(linux-generic32)
-      CFLAGS="${CFLAGS} -Wa,--noexecstack"
-      ;;
     x86_64-*linux*)
       _CONFIG_OPTS+=(linux-x86_64)
       CFLAGS="${CFLAGS} -Wa,--noexecstack"

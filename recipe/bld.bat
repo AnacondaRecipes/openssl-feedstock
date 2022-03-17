@@ -34,6 +34,7 @@ rem if errorlevel 1 exit 1
 rem nmake -f ms\ntdll.mak
 rem if errorlevel 1 exit 1
 
+REM Testing step
 nmake test
 if errorlevel 1 exit 1
 
