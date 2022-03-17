@@ -36,9 +36,11 @@ requirements:
     - make               # [unix]
     - patch              # [unix]
     - m2-patch           # [win]
-    - perl
-  # Empty host section to ensure that this is identified as cb3
+
   host:
+    # technically a build tool, but the windows makefile really wants to find it in the host env.
+    #    easier to do this than carry a patch.
+    - perl
   run:
     - ca-certificates
 
