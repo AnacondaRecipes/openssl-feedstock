@@ -58,7 +58,7 @@ test:
     - python -c "import certifi; import ssl; import urllib.request as urlrq; urlrq.urlopen('https://pypi.org', context=ssl.create_default_context(cafile=certifi.where()))"  # [win]
 
 about:
-  home: http://www.openssl.org/
+  home: https://www.openssl.org/
   license_file: LICENSE
   license: OpenSSL
   license_family: Apache
