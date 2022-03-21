@@ -1,5 +1,5 @@
 {% set name = "openssl" %}
-{% set version = "1.1.1m" %}
+{% set version = "1.1.1n" %}
 
 package:
   name: {{ name|lower }}
@@ -7,10 +7,8 @@ package:
 
 source:
   fn: {{ name }}-{{ version }}.tar.gz
-  url: http://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
-  sha256: f89199be8b23ca45fc7cb9f1d8d3ee67312318286ad030f5316aca6462db6c96
-  patches:
-    - 0001-Don-t-use-USE_BCRYPTGENRANDOM-for-VS-older-than-2015.patch
+  url: https://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
+  sha256: 40dceb51a4f6a5275bde0e6bf20ef4b91bfc32ed57c0552e2e8e15463372b17a
 
 build:
   number: 0
@@ -60,7 +58,7 @@ test:
     - python -c "import certifi; import ssl; import urllib.request as urlrq; urlrq.urlopen('https://pypi.org', context=ssl.create_default_context(cafile=certifi.where()))"  # [win]
 
 about:
-  home: http://www.openssl.org/
+  home: https://www.openssl.org/
   license_file: LICENSE
   license: OpenSSL
   license_family: Apache
