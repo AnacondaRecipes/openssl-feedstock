@@ -14,7 +14,8 @@ REM write permissions to limit the risk of non-privileged users exploiting
 REM OpenSSL's engines feature to perform arbitrary code execution attacks
 REM against applications that load the OpenSSL DLLs.
 REM
-%LIBRARY_BIN%\perl configure %OSSL_CONFIGURE% ^
+set PERL=%BUILD_PREFIX%\Library\bin\perl
+%BUILD_PREFIX%\Library\bin\perl configure %OSSL_CONFIGURE% ^
     --prefix=%LIBRARY_PREFIX% ^
     --openssldir="%CommonProgramFiles%\ssl"
 
