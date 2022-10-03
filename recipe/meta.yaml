@@ -8,9 +8,9 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: https://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
-  sha256: d7939ce614029cdff0b6c20f0e2e5703158a489a72b2507b8bd51bf8c8fd10ca 
+  sha256: d7939ce614029cdff0b6c20f0e2e5703158a489a72b2507b8bd51bf8c8fd10ca
 build:
-  number: 0
+  number: 1
   no_link: lib/libcrypto.so.1.1        # [linux]
   no_link: lib/libcrypto.1.1.dylib     # [osx]
   has_prefix_files:                      # [unix]

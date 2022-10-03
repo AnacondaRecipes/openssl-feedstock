@@ -28,9 +28,16 @@ if [[ ${_BASE_CC} == *-* ]]; then
       _CONFIG_OPTS+=(linux-ppc64le)
       CFLAGS="${CFLAGS} -Wa,--noexecstack"
       ;;
+    # Optimized s390x builds must use -fno-merge-constants.
+    # Without this, a string ("private") in the nid_objs table
+    # (obj_dat.c) will vanish when libcrypto.so is built.
+    # This is currently assumed to be a bug in the -fmerge-constants
+    # optimization for this architecture.
+    # This issue prevents the OBJ_sn2nid function from ever finding
+    # prime256v1, rendering it unusable as an ecparam.
     *s390x-*linux*)
       _CONFIG_OPTS+=(linux64-s390x)
-      CFLAGS="${CFLAGS} -Wa,--noexecstack"
+      CFLAGS="${CFLAGS} -Wa,--noexecstack -fno-merge-constants"
       ;;
     *darwin-arm64*|*arm64-*-darwin*)
       _CONFIG_OPTS+=(darwin64-arm64-cc)
