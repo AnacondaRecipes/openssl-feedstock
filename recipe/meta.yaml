@@ -8,9 +8,9 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: https://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
-  sha256: d7939ce614029cdff0b6c20f0e2e5703158a489a72b2507b8bd51bf8c8fd10ca 
+  sha256: d7939ce614029cdff0b6c20f0e2e5703158a489a72b2507b8bd51bf8c8fd10ca
 build:
-  number: 0
+  number: 1
   no_link: lib/libcrypto.so.1.1        # [linux]
   no_link: lib/libcrypto.1.1.dylib     # [osx]
   has_prefix_files:                      # [unix]
@@ -49,6 +49,7 @@ test:
     - copy NUL checksum.txt        # [win]
     - touch checksum.txt           # [unix]
     - openssl sha256 checksum.txt
+    - openssl ecparam -name prime256v1
     - python -c "from six.moves import urllib; urllib.request.urlopen('https://pypi.org')"  # [unix]
     - python -c "import certifi; import ssl; import urllib.request as urlrq; urlrq.urlopen('https://pypi.org', context=ssl.create_default_context(cafile=certifi.where()))"  # [win]
 
@@ -56,10 +57,18 @@ about:
   home: https://www.openssl.org/
   license_file: LICENSE
   license: OpenSSL
+  license_url: https://www.openssl.org/source/license.html
   license_family: Apache
   summary: OpenSSL is an open-source implementation of the SSL and TLS protocols
+  description: |
+    OpenSSL is a robust, commercial-grade, full-featured Open Source Toolkit
+    for the Transport Layer Security (TLS) protocol formerly known as the
+    Secure Sockets Layer (SSL) protocol. The protocol implementation is based
+    on a full-strength general purpose cryptographic library, which can also
+    be used stand-alone.
   dev_url: https://github.com/openssl/openssl
   doc_url: https://www.openssl.org/docs/man1.1.1/
+  doc_source_url: https://github.com/openssl/openssl/tree/OpenSSL_1_1_1-stable/doc
 
 extra:
   recipe-maintainers:
