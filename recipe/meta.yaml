@@ -27,6 +27,8 @@ build:
     - lib/libcrypto.so.1.1  # [linux]
     - lib/libcrypto.1.1.dylib  # [osx]
     - lib/libcrypto.a  # [unix]
+  patches:
+     - openssl-1.1.1-evp-kdf.patch
 
 requirements:
   build:
