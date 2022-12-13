@@ -30,6 +30,9 @@ build:
   patches:
      - openssl-1.1.1-evp-kdf.patch
 
+  features: 
+    - openssl_evp_kdf
+
 requirements:
   build:
     - {{ compiler('c') }}
