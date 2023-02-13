@@ -33,8 +33,6 @@ requirements:
     - {{ compiler('c') }}
     - nasm               # [win]
     - make               # [unix]
-    - patch              # [unix]
-    - m2-patch           # [win]
     - perl
   run:
     - ca-certificates
