@@ -57,7 +57,6 @@ about:
   home: https://www.openssl.org/
   license_file: LICENSE
   license: OpenSSL
-  license_url: https://www.openssl.org/source/license.html
   license_family: Apache
   summary: OpenSSL is an open-source implementation of the SSL and TLS protocols
   description: |
@@ -68,7 +67,6 @@ about:
     be used stand-alone.
   dev_url: https://github.com/openssl/openssl
   doc_url: https://www.openssl.org/docs/man1.1.1/
-  doc_source_url: https://github.com/openssl/openssl/tree/OpenSSL_1_1_1-stable/doc
 
 extra:
   recipe-maintainers:
