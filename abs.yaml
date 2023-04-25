@@ -1,2 +1,2 @@
 channels:
-  - staging_openssl3: openssl3
+  staging_openssl3: openssl3
