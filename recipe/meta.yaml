@@ -1,5 +1,5 @@
 {% set name = "openssl" %}
-{% set version = "1.1.1t" %}
+{% set version = "3.0.8" %}
 
 package:
   name: {{ name|lower }}
@@ -8,11 +8,11 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: https://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
-  sha256: 8dee9b24bdb1dcbf0c3d1e9b02fb8f6bf22165e807f45adeb7c9677536859d3b
+  sha256: 6c13d2bf38fdf31eac3ce2a347073673f5d63263398f1f69d0df4a41253e4b3e
 build:
   number: 0
-  no_link: lib/libcrypto.so.1.1        # [linux]
-  no_link: lib/libcrypto.1.1.dylib     # [osx]
+  no_link: lib/libcrypto.so.3.0        # [linux]
+  no_link: lib/libcrypto.3.0.dylib     # [osx]
   has_prefix_files:                      # [unix]
     - bin/c_rehash                       # [unix]
     - lib/pkgconfig/libcrypto.pc         # [unix]
@@ -24,8 +24,8 @@ build:
     - {{ pin_subpackage('openssl', max_pin='x.x.x') }}
   detect_binary_files_with_prefix: True
   binary_has_prefix_files:
-    - lib/libcrypto.so.1.1  # [linux]
-    - lib/libcrypto.1.1.dylib  # [osx]
+    - lib/libcrypto.so.3.0  # [linux]
+    - lib/libcrypto.3.0.dylib  # [osx]
     - lib/libcrypto.a  # [unix]
 
 requirements:
@@ -64,7 +64,7 @@ about:
     on a full-strength general purpose cryptographic library, which can also
     be used stand-alone.
   dev_url: https://github.com/openssl/openssl
-  doc_url: https://www.openssl.org/docs/man1.1.1/
+  doc_url: https://www.openssl.org/docs/man3.0/
 
 extra:
   recipe-maintainers:
