@@ -19,9 +19,10 @@ build:
     - lib/pkgconfig/libssl.pc            # [unix]
     - lib/pkgconfig/openssl.pc           # [unix]
   run_exports:
-    # openssl's versioning is X.Y.Z(rev), where rev is really the patch release ID
+    # openssl's versioning of starting with 3.0 is X.Y.Z  (1.x was X.Y.Z(rev)
+    # https://www.openssl.org/policies/general/versioning-policy.html#minor-release
     #    This pin allows the patch release to be >= the build-time openssl version.
-    - {{ pin_subpackage('openssl', max_pin='x.x.x') }}
+    - {{ pin_subpackage('openssl', max_pin='x') }}
   detect_binary_files_with_prefix: True
   binary_has_prefix_files:
     - lib/libcrypto.so.3.0  # [linux]
