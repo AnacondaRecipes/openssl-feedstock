@@ -9,6 +9,7 @@ _CONFIG_OPTS+=(threads)
 _CONFIG_OPTS+=(no-ssl2)     # broken, insecure protocol
 _CONFIG_OPTS+=(no-ssl3)     # broken, insecure protocol
 _CONFIG_OPTS+=(no-zlib)
+_CONFIG_OPTS+=(enable-legacy) # necessary to support some function in Python package cryptography
 
 _BASE_CC=$(basename "${CC}")
 if [[ ${_BASE_CC} == *-* ]]; then

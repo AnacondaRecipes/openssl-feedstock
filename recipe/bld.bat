@@ -17,7 +17,12 @@ REM
 set PERL=%BUILD_PREFIX%\Library\bin\perl
 %BUILD_PREFIX%\Library\bin\perl configure %OSSL_CONFIGURE% ^
     --prefix=%LIBRARY_PREFIX% ^
-    --openssldir="%CommonProgramFiles%\ssl"
+    --openssldir="%CommonProgramFiles%\ssl" ^
+    enable-legacy ^
+    no-fips ^
+    no-module ^
+    no-zlib ^
+    shared
 
 if errorlevel 1 exit 1
 
