@@ -39,17 +39,16 @@ requirements:
 
 test:
   requires:
-#    - certifi  # [win]
-#    - python 3.7  # [not (osx and arm64)]
-#    - python 3.8  # [osx and arm64]
-#    - six
+    - certifi  # [win]
+    - python 3.8
+    - six
   commands:
     - copy NUL checksum.txt        # [win]
     - touch checksum.txt           # [unix]
     - openssl sha256 checksum.txt
     - openssl ecparam -name prime256v1
-#    - python -c "from six.moves import urllib; urllib.request.urlopen('https://pypi.org')"  # [unix]
-#    - python -c "import certifi; import ssl; import urllib.request as urlrq; urlrq.urlopen('https://pypi.org', context=ssl.create_default_context(cafile=certifi.where()))"  # [win]
+    - python -c "from six.moves import urllib; urllib.request.urlopen('https://pypi.org')"  # [unix]
+    - python -c "import certifi; import ssl; import urllib.request as urlrq; urlrq.urlopen('https://pypi.org', context=ssl.create_default_context(cafile=certifi.where()))"  # [win]
 
 about:
   home: https://www.openssl.org/
