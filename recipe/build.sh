@@ -9,6 +9,7 @@ _CONFIG_OPTS+=(threads)
 _CONFIG_OPTS+=(no-ssl2)     # broken, insecure protocol
 _CONFIG_OPTS+=(no-ssl3)     # broken, insecure protocol
 _CONFIG_OPTS+=(no-zlib)
+_CONFIG_OPTS+=(enable-legacy) # necessary to support some function in Python package cryptography
 
 _BASE_CC=$(basename "${CC}")
 if [[ ${_BASE_CC} == *-* ]]; then
@@ -92,8 +93,8 @@ make install_sw install_ssldirs
 
 # https://github.com/ContinuumIO/anaconda-issues/issues/6424
 if [[ ${HOST} =~ .*linux.* ]]; then
-  if execstack -q "${PREFIX}"/lib/libcrypto.so.1.1 | grep -e '^X '; then
-    echo "Error, executable stack found in libcrypto.so.1.1"
+  if execstack -q "${PREFIX}"/lib/libcrypto.so.3.0 | grep -e '^X '; then
+    echo "Error, executable stack found in libcrypto.so.3.0"
     exit 1
   fi
 fi
