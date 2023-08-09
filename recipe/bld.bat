@@ -1,3 +1,5 @@
+setlocal EnableDelayedExpansion
+
 if "%ARCH%"=="32" (
     set OSSL_CONFIGURE=VC-WIN32
 ) ELSE (
@@ -14,6 +16,8 @@ REM write permissions to limit the risk of non-privileged users exploiting
 REM OpenSSL's engines feature to perform arbitrary code execution attacks
 REM against applications that load the OpenSSL DLLs.
 REM
+REM On top of that, we also set the SSL_CERT_FILE environment variable
+REM via an activation script to point to the ca-certificates provided CA root file.
 set PERL=%BUILD_PREFIX%\Library\bin\perl
 %BUILD_PREFIX%\Library\bin\perl configure %OSSL_CONFIGURE% ^
     --prefix=%LIBRARY_PREFIX% ^
@@ -63,3 +67,12 @@ rem copy out32dll\ssleay32.dll %LIBRARY_BIN%\ssleay32.dll
 rem copy out32dll\libeay32.dll %LIBRARY_BIN%\libeay32.dll
 rem mkdir %LIBRARY_INC%\openssl
 rem xcopy /S inc32\openssl\*.* %LIBRARY_INC%\openssl\
+
+:: Copy the [de]activate scripts to %PREFIX%\etc\conda\[de]activate.d.
+:: This will allow them to be run on environment activation.
+for %%F in (activate deactivate) DO (
+    if not exist %PREFIX%\etc\conda\%%F.d mkdir %PREFIX%\etc\conda\%%F.d
+    copy %RECIPE_DIR%\%%F.bat %PREFIX%\etc\conda\%%F.d\%PKG_NAME%_%%F.bat
+    :: Copy unix shell activation scripts, needed by Windows Bash users
+    copy %RECIPE_DIR%\%%F.sh %PREFIX%\etc\conda\%%F.d\%PKG_NAME%_%%F.sh
+)
