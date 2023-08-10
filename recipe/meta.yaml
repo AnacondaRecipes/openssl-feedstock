@@ -45,6 +45,8 @@ test:
     - touch checksum.txt           # [unix]
     - openssl sha256 checksum.txt
     - openssl ecparam -name prime256v1
+    - if "%SSL_CERT_FILE%"=="" exit 1  # [win]
+    - if not exist "%SSL_CERT_FILE%" exit 1  # [win]
     - python -c "import urllib.request; urllib.request.urlopen('https://pypi.org')"
 
 about:
