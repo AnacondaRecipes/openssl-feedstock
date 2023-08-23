@@ -9,7 +9,7 @@ source:
   url: https://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
   sha256: 1761d4f5b13a1028b9b6f3d4b8e17feb0cedc9370f6afe61d7193d2cdce83323
 build:
-  number: 0
+  number: 1
   no_link: lib/libcrypto.so.3.0        # [linux]
   no_link: lib/libcrypto.3.0.dylib     # [osx]
   has_prefix_files:                      # [unix]
@@ -39,16 +39,15 @@ requirements:
 
 test:
   requires:
-    - certifi  # [win]
     - python 3.8
-    - six
   commands:
     - copy NUL checksum.txt        # [win]
     - touch checksum.txt           # [unix]
     - openssl sha256 checksum.txt
     - openssl ecparam -name prime256v1
-    - python -c "from six.moves import urllib; urllib.request.urlopen('https://pypi.org')"  # [unix]
-    - python -c "import certifi; import ssl; import urllib.request as urlrq; urlrq.urlopen('https://pypi.org', context=ssl.create_default_context(cafile=certifi.where()))"  # [win]
+    - if "%SSL_CERT_FILE%"=="" exit 1  # [win]
+    - if not exist "%SSL_CERT_FILE%" exit 1  # [win]
+    - python -c "import urllib.request; urllib.request.urlopen('https://pypi.org')"
 
 about:
   home: https://www.openssl.org/
