@@ -1,5 +1,5 @@
 {% set name = "openssl" %}
-{% set version = "1.1.1v" %}
+{% set version = "1.1.1w" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
-  sha256: d6697e2871e77238460402e9362d47d18382b15ef9f246aba6c7bd780d38a6b0
+  sha256: cf3098950cb4d853ad95c0841f1f9c6d3dc102dccfcacd521d93925208b76ac8
 build:
   number: 0
   no_link: lib/libcrypto.so.1.1        # [linux]
