@@ -40,6 +40,7 @@ requirements:
 test:
   requires:
     - python 3.8
+    - pkg-config
   commands:
     - copy NUL checksum.txt        # [win]
     - touch checksum.txt           # [unix]
@@ -48,6 +49,8 @@ test:
     - if "%SSL_CERT_FILE%"=="" exit 1  # [win]
     - if not exist "%SSL_CERT_FILE%" exit 1  # [win]
     - python -c "import urllib.request; urllib.request.urlopen('https://pypi.org')"
+    # test pkgconfig metadata
+    - pkg-config --print-errors --exact-version "{{ version }}" openssl
 
 about:
   home: https://www.openssl.org/
