@@ -68,6 +68,18 @@ rem copy out32dll\libeay32.dll %LIBRARY_BIN%\libeay32.dll
 rem mkdir %LIBRARY_INC%\openssl
 rem xcopy /S inc32\openssl\*.* %LIBRARY_INC%\openssl\
 
+REM Add pkgconfig files: adapted from https://github.com/conda-forge/openssl-feedstock/pull/106
+:: install pkgconfig metadata (useful for downstream packages);
+:: adapted from inspecting the conda-forge .pc files for unix, as well as
+:: https://github.com/microsoft/vcpkg/blob/master/ports/openssl/install-pc-files.cmake
+mkdir %LIBRARY_PREFIX%\lib\pkgconfig
+for %%F in (openssl libssl libcrypto) DO (
+    echo prefix=%LIBRARY_PREFIX:\=/% > %%F.pc
+    type %RECIPE_DIR%\win_pkgconfig\%%F.pc.in >> %%F.pc
+    echo Version: %PKG_VERSION% >> %%F.pc
+    copy %%F.pc %LIBRARY_PREFIX%\lib\pkgconfig\%%F.pc
+)
+
 :: Copy the [de]activate scripts to %PREFIX%\etc\conda\[de]activate.d.
 :: This will allow them to be run on environment activation.
 for %%F in (activate deactivate) DO (

@@ -9,7 +9,7 @@ source:
   url: https://www.openssl.org/source/{{ name }}-{{ version }}.tar.gz
   sha256: 88525753f79d3bec27d2fa7c66aa0b92b3aa9498dafd93d7cfa4b3780cdae313
 build:
-  number: 1
+  number: 2
   no_link: lib/libcrypto.so.3.0        # [linux]
   no_link: lib/libcrypto.3.0.dylib     # [osx]
   has_prefix_files:                      # [unix]
