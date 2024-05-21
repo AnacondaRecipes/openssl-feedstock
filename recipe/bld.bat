@@ -1,3 +1,4 @@
+@echo on
 setlocal EnableDelayedExpansion
 
 if "%ARCH%"=="32" (
