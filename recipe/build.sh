@@ -71,7 +71,7 @@ CC=${CC}" ${CPPFLAGS} ${CFLAGS}" \
 # chmod +x "${SRC_DIR}"/makedepend
 # PATH=${SRC_DIR}:${PATH} make -j1 depend
 
-make -j${CPU_COUNT} ${VERBOSE_AT}
+make -j${CPU_COUNT}
 
 # expected error: https://github.com/openssl/openssl/issues/6953
 #    OK to ignore: https://github.com/openssl/openssl/issues/6953#issuecomment-415428340
