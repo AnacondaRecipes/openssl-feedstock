@@ -102,7 +102,7 @@ if [[ "${HOST}" == "${BUILD}" ]]; then
   # ../../../../test-runs/test_cmp_http/test.cert.pem -proxy '' -no_proxy 127.0.0.1 -server '[::1]:42871' => 1
   # None INFO     not ok 3 - disabled as not supported by some host IP configurations: server IPv6 address
   if [[ "${HOST}" =~ .*linux.* ]]; then
-    make test TESTS='80-test_cmp_http' V=1 > testsuite.log 2>&1 || true
+    make test TESTS='-test_cmp_http*' V=1 > testsuite.log 2>&1 || true
   else
     make test V=1 > testsuite.log 2>&1 || true
   fi
