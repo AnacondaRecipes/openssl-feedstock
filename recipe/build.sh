@@ -25,21 +25,6 @@ if [[ ${_BASE_CC} == *-* ]]; then
       _CONFIG_OPTS+=(linux-aarch64)
       CFLAGS="${CFLAGS} -Wa,--noexecstack"
       ;;
-    *powerpc64le-*linux*)
-      _CONFIG_OPTS+=(linux-ppc64le)
-      CFLAGS="${CFLAGS} -Wa,--noexecstack"
-      ;;
-    # Optimized s390x builds must use -fno-merge-constants.
-    # Without this, a string ("private") in the nid_objs table
-    # (obj_dat.c) will vanish when libcrypto.so is built.
-    # This is currently assumed to be a bug in the -fmerge-constants
-    # optimization for this architecture.
-    # This issue prevents the OBJ_sn2nid function from ever finding
-    # prime256v1, rendering it unusable as an ecparam.
-    *s390x-*linux*)
-      _CONFIG_OPTS+=(linux64-s390x)
-      CFLAGS="${CFLAGS} -Wa,--noexecstack -fno-merge-constants"
-      ;;
     *darwin-arm64*|*arm64-*-darwin*)
       _CONFIG_OPTS+=(darwin64-arm64-cc)
       ;;
@@ -83,7 +68,7 @@ rm test/recipes/04-test_err.t
 if [[ "${HOST}" == "${BUILD}" ]]; then
   # Using verbosity on failed (sub-)tests only VF=1
 
-  # 2025/2/28: Skip the problematic CMP HTTP test on Linux platforms for v3.0.16. Check if a new release fixed the problem.
+  # 2025/7/22: Skip the problematic CMP HTTP test on Linux platforms for v3.0.17. Check if a new release fixed the problem.
   # It appears that the test expects the IPv6 connection to fail (return code 1) on systems
   # that don't support IPv6, but our Linux systems have IPv6 support enabled by default
   # with the loopback interface properly supporting ::1.
