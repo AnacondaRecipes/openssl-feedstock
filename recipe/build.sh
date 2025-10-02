@@ -28,18 +28,10 @@ if [[ ${_BASE_CC} == *-* ]]; then
     *darwin-arm64*|*arm64-*-darwin*)
       _CONFIG_OPTS+=(darwin64-arm64-cc)
       ;;
-    *darwin*)
-      _CONFIG_OPTS+=(darwin64-x86_64-cc)
-      ;;
   esac
 else
-  if [[ $(uname) == Darwin ]]; then
-    _CONFIG_OPTS+=(darwin64-x86_64-cc)
-    _CONFIGURATOR="perl ./Configure"
-  else
-    # Use config, which is a config.guess-like wrapper around Configure
-    _CONFIGURATOR=./config
-  fi
+  # Use config, which is a config.guess-like wrapper around Configure
+  _CONFIGURATOR=./config
 fi
 
 CC=${CC}" ${CPPFLAGS} ${CFLAGS}" \
@@ -68,7 +60,7 @@ rm test/recipes/04-test_err.t
 if [[ "${HOST}" == "${BUILD}" ]]; then
   # Using verbosity on failed (sub-)tests only VF=1
 
-  # 2025/7/22: Skip the problematic CMP HTTP test on Linux platforms for v3.0.17. Check if a new release fixed the problem.
+  # 2025/10/02: Skip the problematic CMP HTTP test on Linux platforms for v3.0.18. Check if a new release fixed the problem.
   # It appears that the test expects the IPv6 connection to fail (return code 1) on systems
   # that don't support IPv6, but our Linux systems have IPv6 support enabled by default
   # with the loopback interface properly supporting ::1.
