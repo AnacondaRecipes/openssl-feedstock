@@ -1,13 +1,13 @@
 {% set name = "openssl" %}
-{% set version = "3.0.17" %}
+{% set version = "3.0.18" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://github.com/openssl/openssl/releases/download/openssl-{{ version }}/openssl-{{ version }}.tar.gz
-  sha256: dfdd77e4ea1b57ff3a6dbde6b0bdc3f31db5ac99e7fdd4eaf9e1fbb6ec2db8ce
+  url: https://github.com/{{ name }}/{{ name }}/releases/download/{{ name }}-{{ version }}/{{ name }}-{{ version }}.tar.gz
+  sha256: d80c34f5cf902dccf1f1b5df5ebb86d0392e37049e5d73df1b3abae72e4ffe8b
 build:
   number: 0
   no_link: lib/libcrypto.so.3.0        # [linux]
@@ -30,6 +30,7 @@ build:
 
 requirements:
   build:
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - nasm               # [win]
     - make               # [unix]
