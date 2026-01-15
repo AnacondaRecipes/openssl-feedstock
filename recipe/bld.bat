@@ -3,6 +3,8 @@ setlocal EnableDelayedExpansion
 
 if "%ARCH%"=="32" (
     set OSSL_CONFIGURE=VC-WIN32
+) ELSE IF "%target_platform%"=="win-arm64" (
+    set OSSL_CONFIGURE=VC-WIN64-ARM
 ) ELSE (
     set OSSL_CONFIGURE=VC-WIN64A
 )

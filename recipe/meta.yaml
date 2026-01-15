@@ -32,7 +32,7 @@ requirements:
   build:
     - {{ stdlib('c') }}
     - {{ compiler('c') }}
-    - nasm               # [win]
+    - nasm               # [win and not arm64]
     - make               # [unix]
     - perl {{ perl }}
   run:
