@@ -67,6 +67,10 @@ REM configured OPENSSLDIR above makes these files non-functional.)
 nmake install_ssldirs OPENSSLDIR=%LIBRARY_PREFIX%\ssl
 if errorlevel 1 exit 1
 
+REM Install applink.c - required by applications (like Python) that use OpenSSL on Windows
+copy ms\applink.c %LIBRARY_INC%\openssl\applink.c
+if errorlevel 1 exit 1
+
 REM Install step
 rem copy out32dll\openssl.exe %PREFIX%\openssl.exe
 rem copy out32\ssleay32.lib %LIBRARY_LIB%\ssleay32_static.lib
