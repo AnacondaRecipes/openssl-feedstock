@@ -40,7 +40,7 @@ requirements:
 
 test:
   requires:
-    - python 3.9
+    - python 3.10
     - pkg-config
   commands:
     - copy NUL checksum.txt        # [win]
