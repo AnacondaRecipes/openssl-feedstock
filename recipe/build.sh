@@ -63,4 +63,5 @@ CC="${CC}" CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" \
   ${_CONFIGURATOR} "${_CONFIG_OPTS[@]}"
 
 make -j${CPU_COUNT}
+make install
 make test
