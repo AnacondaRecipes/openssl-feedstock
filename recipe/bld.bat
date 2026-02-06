@@ -23,27 +23,16 @@ set PERL=%BUILD_PREFIX%\Library\bin\perl
 %BUILD_PREFIX%\Library\bin\perl configure %OSSL_CONFIGURE% ^
     --prefix=%LIBRARY_PREFIX% ^
     --openssldir="%CommonProgramFiles%\ssl" ^
-    enable-legacy ^
-    no-fips ^
-    no-module ^
+    threads ^
     no-zlib ^
-    shared
+    enable-legacy ^
+    no-module ^
+    no-shared
 
 if errorlevel 1 exit 1
-
-REM Build step
-rem if "%ARCH%"=="64" (
-rem     ml64 -c -Foms\uptable.obj ms\uptable.asm
-rem     if errorlevel 1 exit 1
-rem )
 
 nmake
 if errorlevel 1 exit 1
-
-rem nmake -f ms\nt.mak
-rem if errorlevel 1 exit 1
-rem nmake -f ms\ntdll.mak
-rem if errorlevel 1 exit 1
 
 REM Testing step
 nmake test
@@ -58,28 +47,17 @@ REM configured OPENSSLDIR above makes these files non-functional.)
 nmake install_ssldirs OPENSSLDIR=%LIBRARY_PREFIX%\ssl
 if errorlevel 1 exit 1
 
-REM Install step
-rem copy out32dll\openssl.exe %PREFIX%\openssl.exe
-rem copy out32\ssleay32.lib %LIBRARY_LIB%\ssleay32_static.lib
-rem copy out32\libeay32.lib %LIBRARY_LIB%\libeay32_static.lib
-rem copy out32dll\ssleay32.lib %LIBRARY_LIB%\ssleay32.lib
-rem copy out32dll\libeay32.lib %LIBRARY_LIB%\libeay32.lib
-rem copy out32dll\ssleay32.dll %LIBRARY_BIN%\ssleay32.dll
-rem copy out32dll\libeay32.dll %LIBRARY_BIN%\libeay32.dll
-rem mkdir %LIBRARY_INC%\openssl
-rem xcopy /S inc32\openssl\*.* %LIBRARY_INC%\openssl\
-
 REM Add pkgconfig files: adapted from https://github.com/conda-forge/openssl-feedstock/pull/106
 :: install pkgconfig metadata (useful for downstream packages);
 :: adapted from inspecting the conda-forge .pc files for unix, as well as
 :: https://github.com/microsoft/vcpkg/blob/master/ports/openssl/install-pc-files.cmake
-mkdir %LIBRARY_PREFIX%\lib\pkgconfig
-for %%F in (openssl libssl libcrypto) DO (
-    echo prefix=%LIBRARY_PREFIX:\=/% > %%F.pc
-    type %RECIPE_DIR%\win_pkgconfig\%%F.pc.in >> %%F.pc
-    echo Version: %PKG_VERSION% >> %%F.pc
-    copy %%F.pc %LIBRARY_PREFIX%\lib\pkgconfig\%%F.pc
-)
+@REM mkdir %LIBRARY_PREFIX%\lib\pkgconfig
+@REM for %%F in (openssl libssl libcrypto) DO (
+@REM     echo prefix=%LIBRARY_PREFIX:\=/% > %%F.pc
+@REM     type %RECIPE_DIR%\win_pkgconfig\%%F.pc.in >> %%F.pc
+@REM     echo Version: %PKG_VERSION% >> %%F.pc
+@REM     copy %%F.pc %LIBRARY_PREFIX%\lib\pkgconfig\%%F.pc
+@REM )
 
 :: Copy the [de]activate scripts to %PREFIX%\etc\conda\[de]activate.d.
 :: This will allow them to be run on environment activation.
