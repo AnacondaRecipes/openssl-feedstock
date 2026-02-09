@@ -30,14 +30,19 @@ _CONFIG_OPTS+=(no-module)
 # Since we don't do it, optimize build process by disabling it.
 _CONFIG_OPTS+=(no-shared)
 
-# In previous versions of build.sh, no-ssl2 and no-ssl3 were also added.
-# However, ssl2 was removed in OpenSSL 1.1.0 and ssl3 is disabled by default.
-# CF ignores 'fips' but it's off by default anyway.
-
 if [[ "$target_platform" = "linux-"* ]]; then
   # KTLS is an optimization feature for Linux (and FreeBSD)
   _CONFIG_OPTS+=(enable-ktls)
 fi
+
+# NOTE 1: In previous versions of build.sh, no-ssl2 and no-ssl3 were also added.
+#   However, ssl2 was removed in OpenSSL 1.1.0 and ssl3 is disabled by default.
+# NOTE 2: CF ignores 'fips' but it's off by default anyway.
+# NOTE 3: We do not set --openssldir here (unlike Windows in bld.bat). On Unix, conda
+#   performs prefix replacement in binaries, so the default OPENSSLDIR (under
+#   prefix) is rewritten at install time and the package's ssl dir is used.  The
+#   env is user-owned, so the engine-injection risk that motivates a read-only
+#   OPENSSLDIR on Windows does not apply.
 
 # Do not allow config to make any guesses based on uname.
 # Target names can be found in upstream at Configurations/10-main.conf
@@ -63,5 +68,5 @@ CC="${CC}" CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" \
   ${_CONFIGURATOR} "${_CONFIG_OPTS[@]}"
 
 make -j${CPU_COUNT}
-make install
 make test
+make install

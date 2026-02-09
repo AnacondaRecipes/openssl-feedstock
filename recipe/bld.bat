@@ -9,18 +9,15 @@ if "%ARCH%"=="32" (
 
 REM Configure step
 REM
-REM Conda currently does not perform prefix replacement on Windows, so
-REM OPENSSLDIR cannot (reliably) be used to provide functionality such as a
-REM default configuration and standard CA certificates on a per-environment
-REM basis.  Given that, we set OPENSSLDIR to a location with extremely limited
-REM write permissions to limit the risk of non-privileged users exploiting
-REM OpenSSL's engines feature to perform arbitrary code execution attacks
-REM against applications that load the OpenSSL DLLs.
-REM
-REM On top of that, we also set the SSL_CERT_FILE environment variable
-REM via an activation script to point to the ca-certificates provided CA root file.
+REM We set OPENSSLDIR to a location with extremely limited write permissions
+REM (e.g. %%CommonProgramFiles%%\ssl) to limit the risk of non-privileged users
+REM exploiting OpenSSL's config/engines feature to perform arbitrary code execution
+REM (see e.g. CVE-2019-5443, CVE-2024-6975).  Per-environment config and CA certs
+REM are not provided via OPENSSLDIR; SSL_CERT_FILE is set via an activation script
+REM to point to the ca-certificates package CA root file.
+REM If that folder does not exist, OpenSSL still works (defaults + SSL_CERT_FILE).
 set PERL=%BUILD_PREFIX%\Library\bin\perl
-%BUILD_PREFIX%\Library\bin\perl configure %OSSL_CONFIGURE% ^
+%BUILD_PREFIX%\Library\bin\perl Configure %OSSL_CONFIGURE% ^
     --prefix=%LIBRARY_PREFIX% ^
     --openssldir="%CommonProgramFiles%\ssl" ^
     threads ^

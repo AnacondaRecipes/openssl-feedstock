@@ -10,6 +10,19 @@ source:
   sha256: b28c91532a8b65a1f983b4c28b7488174e4a01008e29ce8e69bd789f28bc2a89
 build:
   number: 0
+  # Prefix replacement: binaries and text files from the build contain the build
+  # prefix; these settings ensure conda rewrites them at install time (Unix).
+  # Windows uses a system path for OPENSSLDIR so no prefix in that path.
+  has_prefix_files:                      # [unix]
+    - bin/c_rehash                       # [unix]
+    - lib/pkgconfig/libcrypto.pc         # [unix]
+    - lib/pkgconfig/libssl.pc            # [unix]
+    - lib/pkgconfig/openssl.pc           # [unix]
+  detect_binary_files_with_prefix: true
+  binary_has_prefix_files:                # [unix]
+    - lib/libcrypto.a                    # [unix]
+    - lib/libssl.a                       # [unix]
+    - bin/openssl                        # [unix]
   run_exports:
     # openssl's versioning of starting with 3.0 is X.Y.Z  (1.x was X.Y.Z(rev)
     # https://www.openssl.org/policies/general/versioning-policy.html#minor-release
