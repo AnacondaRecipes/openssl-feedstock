@@ -48,13 +48,13 @@ REM Add pkgconfig files: adapted from https://github.com/conda-forge/openssl-fee
 :: install pkgconfig metadata (useful for downstream packages);
 :: adapted from inspecting the conda-forge .pc files for unix, as well as
 :: https://github.com/microsoft/vcpkg/blob/master/ports/openssl/install-pc-files.cmake
-@REM mkdir %LIBRARY_PREFIX%\lib\pkgconfig
-@REM for %%F in (openssl libssl libcrypto) DO (
-@REM     echo prefix=%LIBRARY_PREFIX:\=/% > %%F.pc
-@REM     type %RECIPE_DIR%\win_pkgconfig\%%F.pc.in >> %%F.pc
-@REM     echo Version: %PKG_VERSION% >> %%F.pc
-@REM     copy %%F.pc %LIBRARY_PREFIX%\lib\pkgconfig\%%F.pc
-@REM )
+mkdir %LIBRARY_PREFIX%\lib\pkgconfig
+for %%F in (openssl libssl libcrypto) DO (
+    echo prefix=%LIBRARY_PREFIX:\=/% > %%F.pc
+    type %RECIPE_DIR%\win_pkgconfig\%%F.pc.in >> %%F.pc
+    echo Version: %PKG_VERSION% >> %%F.pc
+    copy %%F.pc %LIBRARY_PREFIX%\lib\pkgconfig\%%F.pc
+)
 
 :: Copy the [de]activate scripts to %PREFIX%\etc\conda\[de]activate.d.
 :: This will allow them to be run on environment activation.
