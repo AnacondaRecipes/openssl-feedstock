@@ -20,8 +20,8 @@ build:
     - lib/pkgconfig/openssl.pc           # [unix]
   detect_binary_files_with_prefix: true
   binary_has_prefix_files:               # [unix]
-    - lib/libcrypto.a                    # [unix]
-    - bin/openssl                        # [unix]
+    - lib/libcrypto.so.3.0  # [linux]
+    - lib/libcrypto.3.dylib  # [osx]
   run_exports:
     # openssl's versioning of starting with 3.0 is X.Y.Z  (1.x was X.Y.Z(rev))
     # https://openssl-library.org/policies/releasestrat/
