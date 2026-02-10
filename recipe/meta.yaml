@@ -13,15 +13,15 @@ build:
   # Prefix replacement: binaries and text files from the build contain the build
   # prefix; these settings ensure conda rewrites them at install time (Unix).
   # Windows uses a system path for OPENSSLDIR so no prefix in that path.
-  # has_prefix_files:                      # [unix]
-  #   - bin/c_rehash                       # [unix]
-  #   - lib/pkgconfig/libcrypto.pc         # [unix]
-  #   - lib/pkgconfig/libssl.pc            # [unix]
-  #   - lib/pkgconfig/openssl.pc           # [unix]
-  # detect_binary_files_with_prefix: true
-  # binary_has_prefix_files:               # [unix]
-  #   - lib/libcrypto.so.3     # [linux]
-  #   - lib/libcrypto.3.dylib  # [osx]
+  has_prefix_files:                      # [unix]
+    - bin/c_rehash                       # [unix]
+    - lib/pkgconfig/libcrypto.pc         # [unix]
+    - lib/pkgconfig/libssl.pc            # [unix]
+    - lib/pkgconfig/openssl.pc           # [unix]
+  detect_binary_files_with_prefix: true
+  binary_has_prefix_files:               # [unix]
+    - lib/libcrypto.so.3     # [linux]
+    - lib/libcrypto.3.dylib  # [osx]
   run_exports:
     # openssl's versioning of starting with 3.0 is X.Y.Z  (1.x was X.Y.Z(rev))
     # https://openssl-library.org/policies/releasestrat/
@@ -52,6 +52,23 @@ test:
     - python -c "import urllib.request; urllib.request.urlopen('https://pypi.org')"
     # test pkgconfig metadata
     - pkg-config --print-errors --exact-version "{{ version }}" openssl
+    # test presence of most important files
+    - test -f ${PREFIX}/lib/libcrypto.{SHLIB_EXT}                    # [unix]
+    - test -f ${PREFIX}/lib/libssl.{SHLIB_EXT}                       # [unix]
+    - test -f ${PREFIX}/lib/pkgconfig/libssl.pc                      # [unix]
+    - test -f ${PREFIX}/lib/pkgconfig/libcrypto.pc                   # [unix]
+    - test -f ${PREFIX}/lib/pkgconfig/openssl.pc                     # [unix]
+    - test -f ${PREFIX}/bin/openssl                                  # [unix]
+    - test -f ${PREFIX}/bin/c_rehash                                 # [unix]
+    - test -n "$(ls -A ${PREFIX}/include/openssl 2>/dev/null)"       # [unix]
+    - if not exist %LIBRARY_LIB%\lib\libcrypto.lib" exit 1           # [win]
+    - if not exist %LIBRARY_LIB%\lib\libssl.lib" exit 1              # [win]
+    - if not exist %LIBRARY_LIB%\lib\pkgconfig\libssl.pc" exit 1     # [win]
+    - if not exist %LIBRARY_LIB%\lib\pkgconfig\libcrypto.pc" exit 1  # [win]
+    - if not exist %LIBRARY_LIB%\lib\pkgconfig\openssl.pc" exit 1    # [win]
+    - if not exist %LIBRARY_LIB%\bin\openssl.exe" exit 1             # [win]
+    - if not exist %LIBRARY_LIB%\bin\c_rehash" exit 1                # [win]
+    - if not exist %LIBRARY_LIB%\include\openssl" exit 1             # [win]
 
 about:
   home: https://www.openssl.org
@@ -66,7 +83,7 @@ about:
     on a full-strength general purpose cryptographic library, which can also
     be used stand-alone.
   dev_url: https://github.com/openssl/openssl
-  doc_url: https://www.openssl.org/docs/man3.0
+  doc_url: https://docs.openssl.org
 
 extra:
   recipe-maintainers:
