@@ -23,8 +23,7 @@ set PERL=%BUILD_PREFIX%\Library\bin\perl
     threads ^
     no-zlib ^
     enable-legacy ^
-    no-module ^
-    no-shared
+    no-module
 
 if errorlevel 1 exit 1
 

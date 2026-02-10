@@ -26,10 +26,6 @@ _CONFIG_OPTS+=(enable-legacy)
 # With no-module, the legacy provider is built into libcrypto.
 _CONFIG_OPTS+=(no-module)
 
-# CF provides shared libraries in a separate output.
-# Since we don't do it, optimize build process by disabling it.
-_CONFIG_OPTS+=(no-shared)
-
 if [[ "$target_platform" = "linux-"* ]]; then
   # KTLS is an optimization feature for Linux (and FreeBSD)
   _CONFIG_OPTS+=(enable-ktls)
