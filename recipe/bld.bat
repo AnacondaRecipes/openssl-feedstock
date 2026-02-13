@@ -17,7 +17,7 @@ REM are not provided via OPENSSLDIR; SSL_CERT_FILE is set via an activation scri
 REM to point to the ca-certificates package CA root file.
 REM If that folder does not exist, OpenSSL still works (defaults + SSL_CERT_FILE).
 set PERL=%BUILD_PREFIX%\Library\bin\perl
-%BUILD_PREFIX%\Library\bin\perl Configure %OSSL_CONFIGURE% ^
+%BUILD_PREFIX%\Library\bin\perl configure %OSSL_CONFIGURE% ^
     --prefix=%LIBRARY_PREFIX% ^
     --openssldir="%CommonProgramFiles%\ssl" ^
     threads ^
