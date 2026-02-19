@@ -43,12 +43,12 @@ test:
     - python 3.13
     - pkg-config
   commands:
-    # - copy NUL checksum.txt        # [win]
+    - copy NUL checksum.txt        # [win]
     - touch checksum.txt           # [unix]
-    # - openssl sha256 checksum.txt
-    # - openssl ecparam -name prime256v1
-    # - if "%SSL_CERT_FILE%"=="" exit 1  # [win]
-    # - if not exist "%SSL_CERT_FILE%" exit 1  # [win]
+    - openssl sha256 checksum.txt
+    - openssl ecparam -name prime256v1
+    - if "%SSL_CERT_FILE%"=="" exit 1  # [win]
+    - if not exist "%SSL_CERT_FILE%" exit 1  # [win]
     - python -c "import urllib.request; urllib.request.urlopen('https://pypi.org')"
     # test pkgconfig metadata
     - pkg-config --print-errors --exact-version "{{ version }}" openssl
@@ -63,14 +63,14 @@ test:
     - test -f ${PREFIX}/bin/openssl                                  # [unix]
     - test -f ${PREFIX}/bin/c_rehash                                 # [unix]
     - test -n "$(ls -A ${PREFIX}/include/openssl 2>/dev/null)"       # [unix]
-    - if not exist "%LIBRARY_LIB%\lib\libcrypto.lib" exit 1           # [win]
-    - if not exist "%LIBRARY_LIB%\lib\libssl.lib" exit 1              # [win]
-    - if not exist "%LIBRARY_LIB%\lib\pkgconfig\libssl.pc" exit 1     # [win]
-    - if not exist "%LIBRARY_LIB%\lib\pkgconfig\libcrypto.pc" exit 1  # [win]
-    - if not exist "%LIBRARY_LIB%\lib\pkgconfig\openssl.pc" exit 1    # [win]
-    - if not exist "%LIBRARY_LIB%\bin\openssl.exe" exit 1             # [win]
-    - if not exist "%LIBRARY_LIB%\bin\c_rehash" exit 1                # [win]
-    - if not exist "%LIBRARY_LIB%\include\openssl" exit 1             # [win]
+    # - if not exist "%LIBRARY_LIB%\lib\libcrypto.lib" exit 1           # [win]
+    # - if not exist "%LIBRARY_LIB%\lib\libssl.lib" exit 1              # [win]
+    # - if not exist "%LIBRARY_LIB%\lib\pkgconfig\libssl.pc" exit 1     # [win]
+    # - if not exist "%LIBRARY_LIB%\lib\pkgconfig\libcrypto.pc" exit 1  # [win]
+    # - if not exist "%LIBRARY_LIB%\lib\pkgconfig\openssl.pc" exit 1    # [win]
+    # - if not exist "%LIBRARY_LIB%\bin\openssl.exe" exit 1             # [win]
+    # - if not exist "%LIBRARY_LIB%\bin\c_rehash" exit 1                # [win]
+    # - if not exist "%LIBRARY_LIB%\include\openssl" exit 1             # [win]
 
 about:
   home: https://www.openssl.org
