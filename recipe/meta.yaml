@@ -63,14 +63,14 @@ test:
     - test -f ${PREFIX}/bin/openssl                                  # [unix]
     - test -f ${PREFIX}/bin/c_rehash                                 # [unix]
     - test -n "$(ls -A ${PREFIX}/include/openssl 2>/dev/null)"       # [unix]
-    # - if not exist "%LIBRARY_LIB%\lib\libcrypto.lib" exit 1           # [win]
-    # - if not exist "%LIBRARY_LIB%\lib\libssl.lib" exit 1              # [win]
-    # - if not exist "%LIBRARY_LIB%\lib\pkgconfig\libssl.pc" exit 1     # [win]
-    # - if not exist "%LIBRARY_LIB%\lib\pkgconfig\libcrypto.pc" exit 1  # [win]
-    # - if not exist "%LIBRARY_LIB%\lib\pkgconfig\openssl.pc" exit 1    # [win]
-    # - if not exist "%LIBRARY_LIB%\bin\openssl.exe" exit 1             # [win]
-    # - if not exist "%LIBRARY_LIB%\bin\c_rehash" exit 1                # [win]
-    # - if not exist "%LIBRARY_LIB%\include\openssl" exit 1             # [win]
+    - if not exist "%LIBRARY_LIB%\libcrypto.lib" exit 1              # [win]
+    - if not exist "%LIBRARY_LIB%\libssl.lib" exit 1                 # [win]
+    - if not exist "%LIBRARY_LIB%\pkgconfig\libssl.pc" exit 1        # [win]
+    - if not exist "%LIBRARY_LIB%\pkgconfig\libcrypto.pc" exit 1     # [win]
+    - if not exist "%LIBRARY_LIB%\pkgconfig\openssl.pc" exit 1       # [win]
+    - if not exist "%LIBRARY_BIN%\openssl.exe" exit 1                # [win]
+    - if not exist "%LIBRARY_BIN%\c_rehash" exit 1                   # [win]
+    - if not exist "%LIBRARY_INC%\openssl" exit 1                    # [win]
 
 about:
   home: https://www.openssl.org
