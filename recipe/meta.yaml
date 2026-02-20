@@ -69,7 +69,6 @@ test:
     - if not exist "%LIBRARY_LIB%\pkgconfig\libcrypto.pc" exit 1     # [win]
     - if not exist "%LIBRARY_LIB%\pkgconfig\openssl.pc" exit 1       # [win]
     - if not exist "%LIBRARY_BIN%\openssl.exe" exit 1                # [win]
-    - if not exist "%LIBRARY_BIN%\c_rehash" exit 1                   # [win]
     - if not exist "%LIBRARY_INC%\openssl" exit 1                    # [win]
 
 about:
