@@ -68,4 +68,4 @@ CC="${CC}" CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" \
 
 make -j${CPU_COUNT}
 make test
-make install
+make install_sw install_ssldirs
