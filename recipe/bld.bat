@@ -28,6 +28,13 @@ set PERL=%BUILD_PREFIX%\Library\bin\perl
 
 if errorlevel 1 exit 1
 
+REM Specify in metadata where the packaging is coming from
+set "OPENSSL_VERSION_BUILD_METADATA=+anaconda"
+
+REM Dump configuration results
+%BUILD_PREFIX%\Library\bin\perl configdata.pm --dump
+if errorlevel 1 exit 1
+
 nmake
 if errorlevel 1 exit 1
 

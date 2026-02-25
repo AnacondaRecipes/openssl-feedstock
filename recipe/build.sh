@@ -66,6 +66,12 @@ esac
 CC="${CC}" CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" \
   ${_CONFIGURATOR} "${_CONFIG_OPTS[@]}"
 
+# Specify in metadata where the packaging is coming from
+export OPENSSL_VERSION_BUILD_METADATA="+anaconda"
+
+# Dump configuration results
+perl configdata.pm --dump
+
 make -j${CPU_COUNT}
 make test
 make install_sw install_ssldirs
