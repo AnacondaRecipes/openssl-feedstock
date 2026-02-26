@@ -1,5 +1,5 @@
 @echo off
-if "%__CONDA_OPENSLL_CERT_FILE_SET%" == "1" (
+if "%__CONDA_OPENSSL_CERT_FILE_SET%" == "1" (
     set SSL_CERT_FILE=
-    set __CONDA_OPENSLL_CERT_FILE_SET=
+    set __CONDA_OPENSSL_CERT_FILE_SET=
 )
