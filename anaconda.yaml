@@ -1,4 +1,5 @@
 anaconda_config_version: 1
 upstream_sources:
-  - github:
-      identifier: openssl/openssl
+  - webpage:
+      url: https://www.openssl.org/source/
+      regex: openssl-(3.0.*)\.tar\.gz
