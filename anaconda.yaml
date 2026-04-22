@@ -3,5 +3,5 @@ upstream_sources:
   - github:
       identifier: openssl/openssl
       use_max_tag: true
+      prefix: openssl-
       include_regex: ^openssl-3\.5\.\d+$
-      strip_prefix: openssl-
