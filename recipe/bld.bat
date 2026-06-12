@@ -11,41 +11,34 @@ if "%ARCH%"=="32" (
 
 REM Configure step
 REM
-REM Conda currently does not perform prefix replacement on Windows, so
-REM OPENSSLDIR cannot (reliably) be used to provide functionality such as a
-REM default configuration and standard CA certificates on a per-environment
-REM basis.  Given that, we set OPENSSLDIR to a location with extremely limited
-REM write permissions to limit the risk of non-privileged users exploiting
-REM OpenSSL's engines feature to perform arbitrary code execution attacks
-REM against applications that load the OpenSSL DLLs.
-REM
-REM On top of that, we also set the SSL_CERT_FILE environment variable
-REM via an activation script to point to the ca-certificates provided CA root file.
+REM We set OPENSSLDIR to a location with extremely limited write permissions
+REM (e.g. %%CommonProgramFiles%%\ssl) to limit the risk of non-privileged users
+REM exploiting OpenSSL's config/engines feature to perform arbitrary code execution
+REM (see e.g. CVE-2019-5443, CVE-2024-6975).  Per-environment config and CA certs
+REM are not provided via OPENSSLDIR; SSL_CERT_FILE is set via an activation script
+REM to point to the ca-certificates package CA root file.
+REM If that folder does not exist, OpenSSL still works (defaults + SSL_CERT_FILE).
 set PERL=%BUILD_PREFIX%\Library\bin\perl
 %BUILD_PREFIX%\Library\bin\perl configure %OSSL_CONFIGURE% ^
     --prefix=%LIBRARY_PREFIX% ^
     --openssldir="%CommonProgramFiles%\ssl" ^
-    enable-legacy ^
-    no-fips ^
-    no-module ^
+    threads ^
     no-zlib ^
+    enable-legacy ^
+    no-module ^
     shared
 
 if errorlevel 1 exit 1
 
-REM Build step
-rem if "%ARCH%"=="64" (
-rem     ml64 -c -Foms\uptable.obj ms\uptable.asm
-rem     if errorlevel 1 exit 1
-rem )
+REM Specify in metadata where the packaging is coming from
+set "OPENSSL_VERSION_BUILD_METADATA=+anaconda"
+
+REM Dump configuration results
+%BUILD_PREFIX%\Library\bin\perl configdata.pm --dump
+if errorlevel 1 exit 1
 
 nmake
 if errorlevel 1 exit 1
-
-rem nmake -f ms\nt.mak
-rem if errorlevel 1 exit 1
-rem nmake -f ms\ntdll.mak
-rem if errorlevel 1 exit 1
 
 REM Testing step
 REM Skip tests on win-arm64 during bootstrap due to MD4 test failures
@@ -70,17 +63,6 @@ if errorlevel 1 exit 1
 REM Install applink.c - required by applications (like Python) that use OpenSSL on Windows
 copy ms\applink.c %LIBRARY_INC%\openssl\applink.c
 if errorlevel 1 exit 1
-
-REM Install step
-rem copy out32dll\openssl.exe %PREFIX%\openssl.exe
-rem copy out32\ssleay32.lib %LIBRARY_LIB%\ssleay32_static.lib
-rem copy out32\libeay32.lib %LIBRARY_LIB%\libeay32_static.lib
-rem copy out32dll\ssleay32.lib %LIBRARY_LIB%\ssleay32.lib
-rem copy out32dll\libeay32.lib %LIBRARY_LIB%\libeay32.lib
-rem copy out32dll\ssleay32.dll %LIBRARY_BIN%\ssleay32.dll
-rem copy out32dll\libeay32.dll %LIBRARY_BIN%\libeay32.dll
-rem mkdir %LIBRARY_INC%\openssl
-rem xcopy /S inc32\openssl\*.* %LIBRARY_INC%\openssl\
 
 REM Add pkgconfig files: adapted from https://github.com/conda-forge/openssl-feedstock/pull/106
 :: install pkgconfig metadata (useful for downstream packages);

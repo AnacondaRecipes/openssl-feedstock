@@ -1,0 +1,15 @@
+anaconda_config_version: 1
+upstream_sources:
+  - github:
+      identifier: openssl/openssl
+      use_max_tag: true
+      prefix: openssl-
+      include_regex: ^openssl-3\.5\.\d+$
+  - github:
+      identifier: openssl/openssl
+      use_max_tag: true
+      prefix: openssl-
+      include_regex: ^openssl-3\.0\.\d+$
+    feedstock_branch: 'main-3.0'
+    version_matchspec: '>=3.0,<3.1'
+    supported: true
