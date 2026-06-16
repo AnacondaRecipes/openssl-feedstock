@@ -37,10 +37,13 @@ requirements:
     - perl {{ perl }}
   run:
     - ca-certificates
+  run_constrained:
+    # Previous versions of python weren't patched for https://github.com/python/cpython/pull/100373
+    - python >=3.10
 
 test:
   requires:
-    - python 3.9
+    - python 3.10
     - pkg-config
   commands:
     - copy NUL checksum.txt        # [win]
