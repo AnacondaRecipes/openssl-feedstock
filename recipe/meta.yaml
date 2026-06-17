@@ -1,5 +1,5 @@
 {% set name = "openssl" %}
-{% set version = "3.0.20" %}
+{% set version = "3.0.21" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/{{ name }}/{{ name }}/releases/download/{{ name }}-{{ version }}/{{ name }}-{{ version }}.tar.gz
-  sha256: c80a01dfc70ece4dc21168932c37739042d404d46ccc81a5986dd75314ecda6f
+  sha256: 617e29af8e421f46649484a4937e48c685e47f46488167c982f88bc4ec1d522f
 build:
   number: 0
   no_link: lib/libcrypto.so.3.0        # [linux]
@@ -37,10 +37,13 @@ requirements:
     - perl {{ perl }}
   run:
     - ca-certificates
+  run_constrained:
+    # Previous versions of python weren't patched for https://github.com/python/cpython/pull/100373
+    - python >=3.10
 
 test:
   requires:
-    - python 3.9
+    - python 3.10
     - pkg-config
   commands:
     - copy NUL checksum.txt        # [win]
