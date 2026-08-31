@@ -1,13 +1,13 @@
 {% set name = "openssl" %}
-{% set version = "3.0.21" %}
+{% set version = "3.0.22" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://github.com/{{ name }}/{{ name }}/releases/download/{{ name }}-{{ version }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 617e29af8e421f46649484a4937e48c685e47f46488167c982f88bc4ec1d522f
+  sha256: 67ebca7e50d17383028045486653492195b83db95f8558709701bb47b5c1ef81
 build:
   number: 0
   no_link: lib/libcrypto.so.3.0        # [linux]
