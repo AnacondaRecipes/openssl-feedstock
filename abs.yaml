@@ -1,0 +1,3 @@
+channels:
+  # no-arch generic ca-certificates 
+  - https://package-build.anaconda.com/pkg-orchestrator/v1/channels/graphs/b1a79bfa-2b35-4abd-a1d0-94d5ad606dc9
